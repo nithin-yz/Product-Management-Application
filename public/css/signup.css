@@ -1,0 +1,71 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f0f0f0;
+}
+.container {
+    display: flex;
+    width: 800px;
+    height: 500px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+}
+.left-panel, .right-panel {
+    flex: 1;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.left-panel {
+    
+background-image:url("../assets/bg.png");
+background-size: cover;
+color: white;
+flex: 1;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+padding: 30px;
+text-align: center;
+}
+
+.right-panel {
+    background-color: #ffffff;
+}
+h1 {
+    font-size: 2em;
+    margin-bottom: 20px;
+}
+p {
+    margin-bottom: 30px;
+}
+input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.sign-in-btn, .create-account-btn {
+    background-color: #ffa500;
+    color: white;
+    border: none;
+    padding: 10px;
+    width: 100%;
+    font-size: 1em;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-top: 20px;
+}
+.sign-in-btn {
+    background-color: transparent;
+    color:white;
+    border: 1px solid white;
+    border-radius: 20px;
+}

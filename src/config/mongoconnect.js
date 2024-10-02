@@ -1,6 +1,10 @@
 
 const mongoose = require("mongoose")
-const Mongodburl="mongodb+srv://tomshift22:hmIIGiOuw7v8zKNe@bestbuy.zxclmeg.mongodb.net/Production-Management?retryWrites=true&w=majority&appName=Bestbuy"  
+const env = require("dotenv");
+env.config();
+
+
+const Mongodburl=process.env.MongoUrl
 const Mongodbconnect =async()=>{
 try{
   
