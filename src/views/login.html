@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In to Your Account</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f0f0f0;
+        }
+        .container {
+            display: flex;
+            width: 800px;
+            height: 500px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+        .left-panel, .right-panel {
+            flex: 1;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .left-panel {
+            background-color: #ffffff;
+        }
+        .right-panel {
+            /* background-color: #003366; */
+            background-image: url("../../src/public/assets/bg.png") ;
+            color: white;
+            background-size: cover;
+        }
+        h1 {
+            font-size: 2em;
+            margin-bottom: 30px;
+        }
+        .left-panel h1 {
+            color: #ffa500;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .forgot-password {
+            text-align: right;
+            margin-bottom: 15px;
+            font-size: 0.9em;
+        }
+        .forgot-password a {
+            color: #666;
+            text-decoration: none;
+        }
+        .sign-in-btn {
+            background-color: #ffa500;
+            color: white;
+            border: none;
+            padding: 10px;
+            width: 100%;
+            font-size: 1em;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        .sign-up-btn {
+            background-color: transparent;
+            color: white;
+            border: 1px solid white;
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+            border-radius: 20px;
+            margin-top: 20px;
+            align-self: flex-start;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="left-panel">
+            <h1>Sign In to<br>Your Account</h1>
+            <form>
+                <input type="email" placeholder="Email" required>
+                <input type="password" placeholder="Password" required>
+                <div class="forgot-password">
+                    <a href="#">forgot password?</a>
+                </div>
+                <button type="submit" class="sign-in-btn">SIGN IN</button>
+            </form>
+        </div>
+        <div class="right-panel">
+            <h1>Hello Friend!</h1>
+            <p>Enter your personal details and start your journey with us</p>
+            <button class="sign-up-btn">SIGN UP</button>
+        </div>
+    </div>
+</body>
+</html>

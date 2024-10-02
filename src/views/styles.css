@@ -1,0 +1,161 @@
+/* Reset default styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+}
+
+/* Modal Styles */
+.modal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5); /* Overlay background */
+}
+
+.modal-content {
+    background-color: #fff;
+    width: 600px;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 1.8rem;
+    color: #333;
+}
+
+/* Form Styles */
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+input[type="text"],
+input[type="number"],
+textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+textarea {
+    resize: none;
+}
+
+/* Variant Section */
+.variant {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.variant label {
+    margin-right: 10px;
+    flex-basis: 60px;
+}
+
+.variant input[type="text"],
+.variant input[type="number"] {
+    flex-basis: 100px;
+    margin-right: 10px;
+}
+
+.add-variant {
+    background-color: #333;
+    color: #fff;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.add-variant:hover {
+    background-color: #555;
+}
+
+/* Image Upload Section */
+.image-upload {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.image-upload img {
+    width: 60px;
+    height: 60px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.placeholder {
+    width: 60px;
+    height: 60px;
+    border: 1px dashed #ccc;
+    border-radius: 5px;
+}
+
+/* Form Actions */
+.form-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.add-btn,
+.discard-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.add-btn {
+    background-color: #f0a500;
+    color: #fff;
+}
+
+.add-btn:hover {
+    background-color: #d08c00;
+}
+
+.discard-btn {
+    background-color: #ccc;
+    color: #333;
+}
+
+.discard-btn:hover {
+    background-color: #999;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .modal-content {
+        width: 90%;
+    }
+
+    .variant input[type="text"],
+    .variant input[type="number"] {
+        flex-basis: auto;
+        width: 70px;
+    }
+}

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Product</title>
+    <link rel="stylesheet" href="styles.css">
+
+    
+</head>
+<body>
+    <div class="modal">
+        <div class="modal-content">
+            <h2>Add Product</h2>
+            
+            <form>
+                <div class="form-group">
+                    <label for="title">Title:</label>
+                    <input type="text" id="title" name="title" placeholder="HP AMD Ryzen 3" />
+                </div>
+
+                <div class="form-group">
+                    <label for="variants">Variants:</label>
+                    <div class="variant">
+                        <label for="ram-4gb">Ram: </label>
+                        <input type="text" id="ram-4gb" name="ram-4gb" value="4 GB" disabled />
+                        <label for="price-4gb">Price: </label>
+                        <input type="text" id="price-4gb" name="price-4gb" value="$529.99" />
+                        <label for="qty-4gb">QTY: </label>
+                        <input type="number" id="qty-4gb" name="qty-4gb" value="1" min="1" />
+                    </div>
+                    <div class="variant">
+                        <label for="ram-8gb">Ram: </label>
+                        <input type="text" id="ram-8gb" name="ram-8gb" value="8 GB" disabled />
+                        <label for="price-8gb">Price: </label>
+                        <input type="text" id="price-8gb" name="price-8gb" value="$929.99" />
+                        <label for="qty-8gb">QTY: </label>
+                        <input type="number" id="qty-8gb" name="qty-8gb" value="3" min="1" />
+                    </div>
+                    <button class="add-variant">Add variants</button>
+                </div>
+
+                <div class="form-group">
+                    <label for="sub-category">Sub category:</label>
+                    <input type="text" id="sub-category" name="sub-category" value="HP" />
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Description:</label>
+                    <textarea id="description" name="description" rows="3">The Ryzen 7 is a more high-end processor that compares to the Intel...</textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="upload-image">Upload image:</label>
+                    <div class="image-upload">
+                        <img src="laptop1.png" alt="Laptop 1">
+                        <img src="laptop2.png" alt="Laptop 2">
+                        <div class="placeholder"></div>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="add-btn">ADD</button>
+                    <button type="button" class="discard-btn">DISCARD</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
