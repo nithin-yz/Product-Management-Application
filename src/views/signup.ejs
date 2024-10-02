@@ -12,6 +12,11 @@
             <h1>Welcome Back!</h1>
             <p>To keep connected with us please login with your personal info</p>
            <a href="/"><button class="sign-in-btn">SIGN IN</button></a> 
+           <%if(messages.error) {%>
+            <%console.log("hi") %>
+           <h3 style="color:red"><%=messages.error%></h3>
+           <% } %>
+
         </div>
         <div class="right-panel">
             <h1>Create Account</h1>
@@ -21,6 +26,8 @@
                 <input type="password" name="password" placeholder="Password" required>
                 <button type="submit" class="create-account-btn">CREATE ACCOUNT</button>
             </form>
+            
+        
         </div>
     </div>
 </body>

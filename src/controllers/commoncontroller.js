@@ -6,12 +6,12 @@ exports.signupGet =async(req,res)=>{
 
 try{
 
-res.status(200).render("signup")
+res.status(200).render("signup",{ messages: req.flash('error')})
 
 
 }catch(error){
 
-    console.log("hi")
+   
 res.status(500).send("server error")
 }
 
@@ -21,24 +21,15 @@ res.status(500).send("server error")
 
 exports.loginGet = async(req,res)=>{
 
-    try{
-
-        res.status(200).render("login")
-        
-        
-        }catch(error){
-        console.log(error)
-        res.status(500).send("server error")
-        
-        }
-        
-        
-        
-        }
-        
+    try {
+        const errorMessages = req.flash('error'); 
+        console.log("Flash messages: ", errorMessages)
+        res.status(200).render("login", { messages: { error: errorMessages } })
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Server Error");
+    }
 
 
 
-
-
-
+}
