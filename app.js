@@ -14,7 +14,18 @@ Mongodbconnect();
 // Load environment variables
 env.config();
 
+
 // Middleware
+
+
+
+app.use(session({
+    secret: process.env.secret, // Replace with your own secret
+    resave: false,
+    saveUninitialized: true,
+}));
+
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(flash());
