@@ -144,6 +144,102 @@
         .t2 {
             border: none;
         }
+
+        /* Modal Styles */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1000; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0, 0, 0, 0.5); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
+    max-width: 600px; /* Maximum width of the modal */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Shadow for depth */
+}
+
+/* Close Button */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Form Elements */
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-group input[type="text"],
+.form-group input[type="file"],
+.form-group select,
+.form-group textarea {
+    width: 100%; /* Full width */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.save-btn,
+.discard-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.save-btn {
+    background-color: #28a745; /* Green */
+    color: white;
+}
+
+.discard-btn {
+    background-color: #dc3545; /* Red */
+    color: white;
+}
+
+.add-variant {
+    margin-top: 10px;
+    padding: 5px 10px;
+    background-color: #007bff; /* Blue */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
     </style>
 </head>
 <body>
@@ -191,5 +287,103 @@
             </div>
         </div>
     </div>
+
+    <div class="modal" id="editProductModal" style="display:none;">
+        <div class="modal-content">
+            <span class="close" id="closeEditProductModal">&times;</span>
+            <h2>Edit Product</h2>
+            <form id="editProductForm" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="editTitle">Title:</label>
+                    <input type="text" id="editTitle" name="title" required />
+                </div>
+
+                <div class="form-group">
+                    <label for="editPrice">Price:</label>
+                    <input type="text" id="editPrice" name="price" required />
+                </div>
+
+                <div class="form-group">
+                    <label for="editQty">Quantity:</label>
+                    <input type="number" id="editQty" name="qty" required />
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="save-btn">SAVE CHANGES</button>
+                    <button type="button" class="discard-btn" id="discardEditProductBtn">DISCARD</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script>
+        // Select elements
+        const editProductButton = document.querySelector('.edit-product');
+        const editProductModal = document.getElementById('editProductModal');
+        const closeEditProductModal = document.getElementById('closeEditProductModal');
+        const discardEditProductBtn = document.getElementById('discardEditProductBtn');
+    
+        // Assuming the product ID is available from the product object in your context
+        // You might want to include the data-product-id in the button if not set
+        const productId = "<%= product.id %>"; // Ensure you have product ID accessible
+    
+        // Open the Edit Product modal
+        editProductButton.addEventListener('click', function() {
+            // Fetch product details using the product ID
+            fetch(`/path-to-fetch-product/${productId}`) // Adjust this URL to match your endpoint
+                .then(response => response.json())
+                .then(product => {
+                    // Populate the form with the product details
+                    document.getElementById('editTitle').value = product.title;
+                    document.getElementById('editPrice').value = product.variants[0].price; // Assuming one variant
+                    document.getElementById('editQty').value = product.variants[0].qty; // Assuming one variant
+    
+                    // Show the modal
+                    editProductModal.style.display = 'block';
+                })
+                .catch(error => {
+                    console.error('Error fetching product details:', error);
+                });
+        });
+    
+        // Close the modal when the close button is clicked
+        closeEditProductModal.addEventListener('click', function() {
+            editProductModal.style.display = 'none';
+        });
+    
+        // Discard button closes the modal
+        discardEditProductBtn.addEventListener('click', function() {
+            editProductModal.style.display = 'none';
+        });
+    
+        // Submit the form
+        document.getElementById('editProductForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+    
+            // Collect form data
+            const formData = new FormData(this);
+            formData.append('productId', productId); // Append the product ID to the form data
+    
+            // Send the form data to the server via AJAX
+            fetch('/path-to-update-product', { // Adjust this URL to match your update endpoint
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Handle successful update (close modal and refresh data)
+                editProductModal.style.display = 'none';
+                location.reload(); // Reload the page to show updated data
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    </script>
+    
 </body>
 </html>

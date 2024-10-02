@@ -123,19 +123,18 @@ exports.addproductPost= async(req,res)=>{
 
 }
 
-exports.productdescribGet =async(req,res)=>{
-
+exports.productdescribGet =async (req, res) => {
     try {
-        const product = await Product.findById(req.params.id);
-        
-        if (!product) {
-            return res.status(404).send('404 product not found')
-        }
-
-        res.render('productdescribtion', { product });
+        const productId = req.params.id;
+        const product = await Product.findById(productId).populate('variants');
+        const categories = await Category.find();
+     
+        res.render('productdescribtion', {
+            product: product,
+            categories: categories
+        });
     } catch (error) {
-    console.log(error)
-        res.status(500).send('Server error');
+        console.error(error);
+        res.status(500).send("Server Error");
     }
-
 }
