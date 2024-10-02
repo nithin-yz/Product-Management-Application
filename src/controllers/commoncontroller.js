@@ -1,3 +1,7 @@
+
+const userschema = require("../models/user")
+
+
 exports.signupGet =async(req,res)=>{
 
 try{
@@ -18,7 +22,7 @@ res.status(500).send("server error")
 exports.loginGet = async(req,res)=>{
 
     try{
-console.log("hi")
+
         res.status(200).render("login")
         
         
@@ -33,16 +37,8 @@ console.log("hi")
         }
         
 
-exports.loginpost =async(req,res)=>{
-
-try{
-
-
-}
-catch{
 
 
 
-}
 
-}
+

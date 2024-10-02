@@ -39,7 +39,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Use routers
 app.use("/", userRouter);
-// app.use("/auth", authRouter);
+app.use("/auth", authRouter);
 
 // Start server
 app.listen(PORT, () => {
