@@ -5,7 +5,7 @@ require("dotenv").config();
 
 exports.loginPost = async (req, res) => {
     const { email, password } = req.body;
-    console.log(email, password);
+    
   
     try {
       // Check if user exists
@@ -24,7 +24,7 @@ exports.loginPost = async (req, res) => {
   
       // Generate a JWT token
       const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
-      console.log(token);
+      
   
       // Set the token in an HTTP-only cookie
       res.cookie("token", token, { httpOnly: true, secure: process.env.NODE_ENV === 'production' });

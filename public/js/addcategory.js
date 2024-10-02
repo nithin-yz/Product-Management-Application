@@ -2,7 +2,7 @@
 
 document.addEventListener("DOMContentLoaded", function () {
    const formwanted = document.getElementById("AddCategoryForm")
-   console.log(formwanted)
+   
    formwanted.addEventListener("submit", async function (event) {
         event.preventDefault(); 
 

@@ -3,9 +3,9 @@ document.getElementById('addSubcategoryForm').addEventListener('submit', async (
 
     const subcategoryName = document.getElementById('subcategory-name').value;
     const parentCategory = document.getElementById('parent-category').value;
-
+console.log(subcategoryName,parentCategory)
     try {
-        const response = await fetch('/add-subcategory', {
+        const response = await fetch('auth/addsubcategory', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -20,7 +20,7 @@ document.getElementById('addSubcategoryForm').addEventListener('submit', async (
             alert(data.error); // Show error message
         }
     } catch (error) {
-        console.error('Error:', error);
+        console.log('Error:', error);
         alert('An error occurred while adding the subcategory.');
     }
 });

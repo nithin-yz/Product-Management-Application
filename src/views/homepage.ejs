@@ -58,6 +58,7 @@
         /* Sidebar */
         .layout {
             display: flex;
+            flex-direction: column;
             gap: 30px;
         }
 
@@ -84,10 +85,14 @@
 
         /* Product Grid */
         .product-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
-            flex-grow: 1;
+
+          display: flex;
+          flex-wrap: wrap;
+          gap:80px;
+            /* border: 1px solid red; */
+    /* display: grid;
+    grid-template-columns: repeat(4, 2fr); /* 4 equal columns */
+    /* gap: 20px;d */
         }
 
         .product-card {
@@ -370,59 +375,56 @@
 
             <div class="product-grid">
                 <div class="product-card">
-                    <button class="favorite-btn">
-                        <i class="fas fa-heart"></i>
-                    </button>
-                    <img src="laptop1.png" alt="Laptop 1" class="product-image">
-                    <h3 class="product-title">Laptop 1</h3>
-                    <p class="product-price">$529.99</p>
-                    <div class="rating">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star-half-alt"></i>
-                    </div>
-                </div>
+                   
+                
+                        <div class="product-grid">
+                            <% products.forEach(product => { %> <!-- Loop through products -->
+                                <div class="product-card">
+                                    <a style="text-decoration: none;" href="/getproduct/<%= product._id %>"> 
+                                    <button class="favorite-btn">
+                                        <i class="fas fa-heart"></i>
+                                    </button>
+                                    <% console.log(product.images[0]) %>
+                                    <img src="/uploads/<%= product.images[0].split('\\').pop() %>" alt="<%= product.title %>" class="product-image">
 
-                <div class="product-card">
-                    <button class="favorite-btn">
-                        <i class="fas fa-heart"></i>
-                    </button>
-                    <img src="laptop2.png" alt="Laptop 2" class="product-image">
-                    <h3 class="product-title">Laptop 2</h3>
-                    <p class="product-price">$929.99</p>
-                    <div class="rating">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star-half-alt"></i>
+                                    <h3 class="product-title"><%= product.title %></h3>
+                                    <p class="product-price">$<%= product.variants[0].price %></p>
+                                    <div class="rating">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star-half-alt"></i>
+                                    </div>
+                                    </a>
+                                </div>
+                            <% }); %>
+                        </div>
+                
+                        <div class="pagination">
+                            <div class="page-numbers " style="background-color:white; border: 1px solid black; width:35px; height:35px; text-align: right;">
+                                <% for (let i = 1; i <= totalPages; i++) { %>
+                                <h1 style="margin-left:4px;"><a style="text-decoration:orange; color:red; font-weight: bolder;" href="/userhome?page=<%= i %>" class="<%= currentPage === i ? 'active' : '' %>"><%= i %></a>
+                                    <% } %></h1>    
+                            </div>
+                            <div class="rows-select">
+                                <span>Show</span>products
+                                <select onchange="window.location.href='/userhome?limit=' + this.value;">
+                                    <option value="10" <%= limit === 10 ? 'selected' : '' %>>10</option>
+                                    <option value="20" <%= limit === 20 ? 'selected' : '' %>>20</option>
+                                    <option value="50" <%= limit === 50 ? 'selected' : '' %>>50</option>
+                                </select>
+                                <span>rows</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
+                
 
                 <!-- Add more product cards as needed -->
             </div>
 
-            <div class="pagination">
-                <div class="page-numbers">
-                    <span class="active">1</span>
-                    <span>2</span>
-                    <span>3</span>
-                    <span>4</span>
-                </div>
-                <div class="rows-select">
-                    <span>Show</span>
-                    <select>
-                        <option value="10">10</option>
-                        <option value="20">20</option>
-                        <option value="50">50</option>
-                    </select>
-                    <span>rows</span>
-                </div>
-            </div>
-        </div>
-    </div>
+            
 
     <!-- Add Category Modal -->
     <div class="modal" id="addCategoryModal">
@@ -447,14 +449,20 @@
         <div class="modal-content">
             <span class="close" id="closeAddSubcategoryModal">&times;</span>
             <h2>Add Subcategory</h2>
-            <form>
+            <form id="addSubcategoryForm">
                 <div class="form-group">
                     <label for="subcategory-name">Subcategory Name:</label>
                     <input type="text" id="subcategory-name" name="subcategory-name" required />
                 </div>
                 <div class="form-group">
                     <label for="parent-category">Parent Category:</label>
-                    <input type="text" id="parent-category" name="parent-category" required />
+                    <select id="parent-category" name="parent-category" required>
+                        <option value="" disabled selected>Select a category</option>
+                        <!-- Categories will be populated here -->
+                        <% categories.forEach(category => { %>
+                            <option value="<%= category.name %>"><%= category.name %></option>
+                        <% }) %>
+                    </select>
                 </div>
                 <div class="form-actions">
                     <button type="submit" class="add-btn">ADD</button>
@@ -463,51 +471,61 @@
             </form>
         </div>
     </div>
-
+    
     <!-- Add Product Modal -->
     <div class="modal" id="addProductModal">
         <div class="modal-content">
             <span class="close" id="closeAddProductModal">&times;</span>
             <h2>Add Product</h2>
-            <form>
+            <form id="addProductForm" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="title">Title:</label>
                     <input type="text" id="title" name="title" placeholder="HP AMD Ryzen 3" required />
                 </div>
-
+    
                 <div class="form-group">
-                    <label for="variants vgenertor">Variants:</label>
-                    <div class="variant">
-                        <label for="ram-4gb">Ram:</label>
-                        <input type="text" id="ram-4gb" name="ram-4gb" value="4 GB" />
-                        <label for="price-4gb">Price:</label>
-                        <input type="text" id="price-4gb" name="price-4gb" value="$529.99" />
-                        <label for="qty-4gb">QTY:</label>
-                        <input type="number" id="qty-4gb" name="qty-4gb" value="1" min="1" />
+                    <label for="variants">Variants:</label>
+                    <div id="variants-container">
+                        <div class="variant">
+                            <label for="ram-1">Ram:</label>
+                            <input type="text" id="ram-1" name="ram-1" value="4 GB" required />
+                            <label for="price-1">Price:</label>
+                            <input type="text" id="price-1" name="price-1"  required />
+                            <label for="qty-1">QTY:</label>
+                            <input type="number" id="qty-1" name="qty-1" value="1" min="1" required />
+                            <button type="button" class="remove-variant" style="display:none;">Remove</button>
+                        </div>
                     </div>
-                   
-                    <button type="button" class="add-variant">Add variants</button>
+                    <button type="button" class="add-variant">Add Variant</button>
                 </div>
-
+    
                 <div class="form-group">
-                    <label for="sub-category">Sub category:</label>
-                    <input type="text" id="sub-category" name="sub-category" value="HP" required />
+                    <label for="category">Category:</label>
+                    <select id="category" name="category" required>
+                        <option value="" disabled selected>Select Category</option>
+                        <% categories.forEach(category => { %>
+                            <option value="<%= category._id %>"><%= category.name %></option>
+                        <% }); %>
+                    </select>
                 </div>
-
+    
+                <div class="form-group">
+                    <label for="subcategory">Subcategory:</label>
+                    <select id="subcategory" name="subcategory" required>
+                        <option value="" disabled selected>Select Subcategory</option>
+                    </select>
+                </div>
+    
                 <div class="form-group">
                     <label for="description">Description:</label>
-                    <textarea id="description" name="description" rows="3" required>The Ryzen 7 is a more high-end processor that compares to the Intel...</textarea>
+                    <textarea id="description" name="description" rows="3" required>The Ryzen 7 is a high-end processor...</textarea>
                 </div>
-
+    
                 <div class="form-group">
-                    <label for="upload-image">Upload image:</label>
-                    <div class="image-upload">
-                        <img src="laptop1.png" alt="Laptop 1">
-                        <img src="laptop2.png" alt="Laptop 2">
-                        <div class="placeholder"></div>
-                    </div>
+                    <label for="upload-images">Upload Images:</label>
+                    <input type="file" id="upload-images" name="images" accept="image/*" multiple required />
                 </div>
-
+    
                 <div class="form-actions">
                     <button type="submit" class="add-btn">ADD</button>
                     <button type="button" class="discard-btn" id="discardAddProductBtn">DISCARD</button>
@@ -515,7 +533,7 @@
             </form>
         </div>
     </div>
-
+    
     <script>
         // Get modal elements
         const addCategoryModal = document.getElementById("addCategoryModal");
@@ -594,6 +612,93 @@
     </script>
     <script src="/js/addcategory.js"></script>
     <script src="/js/addsubcategory.js"></script>
+    <script src="/js/addvariant.js"></script>
+   
+
+    <script>
+        const categories = <%- JSON.stringify(categories) %>;
+        console.log(categories); // Check the categories
+    
+        document.addEventListener('DOMContentLoaded', function () {
+            const categorySelect = document.getElementById('category');
+            const subcategorySelect = document.getElementById('subcategory');
+    
+            // Populate categories dropdown
+            const existingOptions = new Set(); // To keep track of added options
+    
+            categories.forEach(category => {
+                // Only add if it hasn't been added already
+                if (!existingOptions.has(category.name)) {
+                    const option = document.createElement('option');
+                    option.value = category._id;
+                    option.textContent = category.name;
+                    categorySelect.appendChild(option);
+                    existingOptions.add(category.name); // Mark this category as added
+                }
+            });
+    
+            // Populate subcategories when a category is selected
+            categorySelect.addEventListener('change', function () {
+                const selectedCategoryId = this.value;
+    
+                // Clear previous subcategories
+                subcategorySelect.innerHTML = '<option value="" disabled selected>Select Subcategory</option>';
+    
+                // Find the selected category
+                const selectedCategory = categories.find(category => category._id === selectedCategoryId);
+    
+                // Populate the subcategories
+                if (selectedCategory && selectedCategory.subcategories) {
+                    selectedCategory.subcategories.forEach(subcategory => {
+                        const option = document.createElement('option');
+                        option.value = subcategory._id; // Assuming you want to use the subcategory ID
+                        option.textContent = subcategory.name;
+                        subcategorySelect.appendChild(option);
+                    });
+                }
+            });
+        });
+    </script>
+    
+
+<script>
+document.getElementById('addProductForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    const formData = new FormData(this);
+
+    // Collect the variants
+    const variants = [];
+    document.querySelectorAll('#variants-container .variant').forEach((variant, index) => {
+        const ram = variant.querySelector(`[name^="ram-"]`).value;
+        const price = variant.querySelector(`[name^="price-"]`).value;
+        const qty = variant.querySelector(`[name^="qty-"]`).value;
+        variants.push({ ram, price, qty });
+    });
+
+    // Add variants to formData
+    formData.append('variants', JSON.stringify(variants));
+
+    // Send data to the server
+    fetch('/auth/addproduct', {
+        method: 'POST',
+        body: formData,
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('Product added successfully!');
+            // Optionally, close the modal or reset the form here
+        } else {
+            alert('Error adding product: ' + data.error);
+        }
+    })
+    .catch(error => console.error('Error:', error));
+});
+</script>
+
+
+
     
 </body>
 </html>
