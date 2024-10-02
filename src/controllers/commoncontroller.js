@@ -23,13 +23,14 @@ exports.loginGet = async(req,res)=>{
 
     try {
         const errorMessages = req.flash('error'); 
-        console.log("Flash messages: ", errorMessages)
+     
         res.status(200).render("login", { messages: { error: errorMessages } })
     } catch (error) {
-        console.error(error);
+        console.log(error);
         res.status(500).send("Server Error");
     }
 
 
 
 }
+

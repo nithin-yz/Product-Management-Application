@@ -4,6 +4,9 @@ const session = require("express-session");
 const flash = require("connect-flash");
 const cache = require("nocache");
 const env = require("dotenv");
+const cookieParser = require("cookie-parser");
+
+
 
 const path = require("path");
 const Mongodbconnect = require("./src/config/mongoconnect"); // Adjust path as necessary
@@ -26,6 +29,7 @@ app.use(session({
 }));
 
 
+app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(flash());

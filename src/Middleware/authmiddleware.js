@@ -1,11 +1,12 @@
-const jwt = require('jsonwebtoken');
-require('dotenv').config();
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
 const authenticate = (req, res, next) => {
-  const token = req.header('Authorization');
+  const token = req.cookies.token; // Extract token from cookies
+  
 
   if (!token) {
-    return res.status(401).json({ message: 'No token, authorization denied' });
+    return res.status(401).redirect("/login");
   }
 
   try {
@@ -14,7 +15,8 @@ const authenticate = (req, res, next) => {
     req.user = decoded.userId; // Attach the user ID to the request object
     next();
   } catch (err) {
-    res.status(401).json({ message: 'Token is not valid' });
+    console.log("Token verification failed:", err.message);
+    return res.status(401).redirect("/login");
   }
 };
 
