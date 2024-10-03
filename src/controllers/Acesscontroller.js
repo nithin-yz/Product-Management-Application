@@ -10,7 +10,7 @@ exports.userhomeGet = async (req, res) => {
 
         // Pagination logic
         const page = parseInt(req.query.page) || 1; // Current page number
-        const limit = parseInt(req.query.limit) || 10; // Number of products per page
+        const limit = parseInt(req.query.limit) ||3; // Number of products per page
         const skip = (page - 1) * limit; // Calculate documents to skip
 
         // Fetch products with pagination

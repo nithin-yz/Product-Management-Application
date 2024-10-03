@@ -384,7 +384,7 @@
                                     <button class="favorite-btn">
                                         <i class="fas fa-heart"></i>
                                     </button>
-                                    <% console.log(product.images[0]) %>
+                                    
                                     <img src="/uploads/<%= product.images[0].split('\\').pop() %>" alt="<%= product.title %>" class="product-image">
 
                                     <h3 class="product-title"><%= product.title %></h3>
@@ -402,15 +402,15 @@
                         </div>
                 
                         <div class="pagination">
-                            <div class="page-numbers " style="background-color:white; border: 1px solid black; width:35px; height:35px; text-align: right;">
+                            <div class="page-numbers " style="background-color:white;  width:35px; height:35px; text-align: right;">
                                 <% for (let i = 1; i <= totalPages; i++) { %>
-                                <h1 style="margin-left:4px;"><a style="text-decoration:orange; color:red; font-weight: bolder;" href="/userhome?page=<%= i %>" class="<%= currentPage === i ? 'active' : '' %>"><%= i %></a>
+                                <h1 style="margin-left:4px;"><a style="border: 1px solid black;       text-decoration:orange; color:red; font-weight: bolder;" href="/userhome?page=<%= i %>" class="<%= currentPage === i ? 'active' : '' %>"><%= i %></a>
                                     <% } %></h1>    
                             </div>
                             <div class="rows-select">
                                 <span>Show</span>products
                                 <select onchange="window.location.href='/userhome?limit=' + this.value;">
-                                    <option value="10" <%= limit === 10 ? 'selected' : '' %>>10</option>
+                                    <option value="3" <%= limit === 3 ? 'selected' : '' %>>3</option>
                                     <option value="20" <%= limit === 20 ? 'selected' : '' %>>20</option>
                                     <option value="50" <%= limit === 50 ? 'selected' : '' %>>50</option>
                                 </select>
