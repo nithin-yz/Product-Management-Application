@@ -87,6 +87,7 @@
         .product-grid {
 
           display: flex;
+          flex-direction: row;
           flex-wrap: wrap;
           gap:80px;
             /* border: 1px solid red; */
@@ -355,70 +356,90 @@
             </div>
         </nav>
 
-        <div class="layout">
+        <div  class="layout">
             <aside class="sidebar">
-                <div class="categories">
-                    <h2>Categories</h2>
-                    <ul class="category-list">
-                        <li class="category-item">All categories</li>
-                        <li class="category-item active">
-                            Laptop
-                            <ul class="subcategory">
-                                <li>Hp</li>
-                                <li>Dell</li>
-                            </ul>
-                        </li>
-                        <li class="category-item">Headphones</li>
-                    </ul>
-                </div>
-            </aside>
+               
+                <aside class="sidebar">
+                    <div class="categories">
+                        <h2>Categories</h2>
+                        <ul class="category-list">
+                            <!-- All Categories link (resets category/subcategory filter) -->
+                            <li class="category-item">
+                                <a href="/userhome">All categories</a>
+                            </li>
+                
+                            <!-- Loop through each category -->
+                            <% categories.forEach(category => { %>
+                                <li class="category-item <%= selectedCategory === category._id.toString() ? 'active' : '' %>">
+                                    <!-- Category name link -->
+                                    <a href="/userhome?category=<%= category.name %>"><%= category.name %></a>
+                                    
+                                    <!-- If the category has subcategories, render them -->
+                                    <% if (category.subcategories && category.subcategories.length > 0) { %>
+                                        <ul class="subcategory">
+                                            <% category.subcategories.forEach(subcategory => { %>
+                                                <li class="subcategory-item <%= selectedSubcategory === subcategory._id.toString() ? 'active' : '' %>">
+                                                    <!-- Subcategory name link -->
+                                                    <a href="/userhome?category=<%= category.name %>&subcategory=<%= subcategory.name %>">
+                                                        <%= subcategory.name %>
+                                                    </a>
+                                                </li>
+                                            <% }); %>
+                                        </ul>
+                                    <% } %>
+                                </li>
+                            <% }); %>
+                        </ul>
+                    </div>
+                </aside>
+                
+            
 
             <div class="product-grid">
-                <div class="product-card">
-                   
-                
-                        <div class="product-grid">
-                            <% products.forEach(product => { %> <!-- Loop through products -->
-                                <div class="product-card">
-                                    <a style="text-decoration: none;" href="/getproduct/<%= product._id %>"> 
-                                    <button class="favorite-btn">
-                                        <i class="fas fa-heart"></i>
-                                    </button>
-                                    
-                                    <img src="/uploads/<%= product.images[0].split('\\').pop() %>" alt="<%= product.title %>" class="product-image">
-
-                                    <h3 class="product-title"><%= product.title %></h3>
-                                    <p class="product-price">$<%= product.variants[0].price %></p>
-                                    <div class="rating">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star-half-alt"></i>
-                                    </div>
-                                    </a>
-                                </div>
-                            <% }); %>
-                        </div>
-                
-                        <div class="pagination">
-                            <div class="page-numbers " style="background-color:white;  width:35px; height:35px; text-align: right;">
-                                <% for (let i = 1; i <= totalPages; i++) { %>
-                                <h1 style="margin-left:4px;"><a style="border: 1px solid black;       text-decoration:orange; color:red; font-weight: bolder;" href="/userhome?page=<%= i %>" class="<%= currentPage === i ? 'active' : '' %>"><%= i %></a>
-                                    <% } %></h1>    
+                <% products.forEach(product => { %>
+                    <div class="product-card">
+                        <a style="text-decoration: none;" href="/getproduct/<%= product._id %>">
+                            <button class="favorite-btn">
+                                <i class="fas fa-heart"></i>
+                            </button>
+                            <img src="/uploads/<%= product.images[0].split('\\').pop() %>" alt="<%= product.title %>" class="product-image">
+                            <h3 class="product-title"><%= product.title %></h3>
+                            <p class="product-price">$<%= product.variants[0].price %></p>
+                            <div class="rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
                             </div>
-                            <div class="rows-select">
-                                <span>Show</span>products
-                                <select onchange="window.location.href='/userhome?limit=' + this.value;">
-                                    <option value="3" <%= limit === 3 ? 'selected' : '' %>>3</option>
-                                    <option value="20" <%= limit === 20 ? 'selected' : '' %>>20</option>
-                                    <option value="50" <%= limit === 50 ? 'selected' : '' %>>50</option>
-                                </select>
-                                <span>rows</span>
-                            </div>
-                        </div>
+                        </a>
                     </div>
+                <% }); %>
+            </div>
+            
+                
+            <div class="pagination">
+                <div class="page-numbers">
+                    <% for (let i = 1; i <= totalPages; i++) { %>
+                        <h1>
+                            <a href="/userhome?page=<%= i %>&category=<%= selectedCategory %>&subcategory=<%= selectedSubcategory %>" 
+                               class="<%= currentPage === i ? 'active' : '' %>">
+                                <%= i %>
+                            </a>
+                        </h1>
+                    <% } %>
                 </div>
+                <div class="rows-select">
+                    <span>Show</span> products
+                    <select onchange="window.location.href='/userhome?limit=' + this.value + '&category=<%= selectedCategory %>&subcategory=<%= selectedSubcategory %>';">
+                        <option value="3" <%= limit === 3 ? 'selected' : '' %>>3</option>
+                        <option value="20" <%= limit === 20 ? 'selected' : '' %>>20</option>
+                        <option value="50" <%= limit === 50 ? 'selected' : '' %>>50</option>
+                    </select>
+                    <span>rows</span>
+                </div>
+            </div>
+            
                 
 
                 <!-- Add more product cards as needed -->

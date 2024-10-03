@@ -6,17 +6,30 @@ const Product = require("../models/product")
 
 exports.userhomeGet = async (req, res) => {
     try {
+        // Fetch all categories and their subcategories
         const allCategories = await Category.find({}).select('name subcategories');
 
-        // Pagination logic
-        const page = parseInt(req.query.page) || 1; // Current page number
-        const limit = parseInt(req.query.limit) ||3; // Number of products per page
-        const skip = (page - 1) * limit; // Calculate documents to skip
+        // Get the selected category or subcategory from query parameters
+        const selectedCategory = req.query.category || null;
+        const selectedSubcategory = req.query.subcategory || null;
 
-        // Fetch products with pagination
-        const products = await Product.find().skip(skip).limit(limit);
-        const totalProducts = await Product.countDocuments(); // Total number of products
-        const totalPages = Math.ceil(totalProducts / limit); // Total number of pages
+        // Build query object to filter products based on category or subcategory
+        let query = {};
+        if (selectedSubcategory) {
+            query['subcategory'] = selectedSubcategory; // Filter by subcategory if provided
+        } else if (selectedCategory) {
+            query['category'] = selectedCategory; // Filter by category if provided
+        }
+
+        // Pagination logic
+        const page = parseInt(req.query.page) || 1; 
+        const limit = parseInt(req.query.limit) || 3;
+        const skip = (page - 1) * limit;
+
+        // Fetch filtered products with pagination
+        const products = await Product.find(query).skip(skip).limit(limit);
+        const totalProducts = await Product.countDocuments(query);
+        const totalPages = Math.ceil(totalProducts / limit);
 
         // Render the homepage with categories, products, and pagination
         res.status(200).render("homepage", { 
@@ -24,13 +37,16 @@ exports.userhomeGet = async (req, res) => {
             products, 
             currentPage: page, 
             totalPages,
-            limit // Add this line to pass the limit to the EJS template
+            limit,
+            selectedCategory,
+            selectedSubcategory
         });
     } catch (error) {
         console.error(error);
         res.status(500).send("Server error");
     }
 };
+
 
 
 exports.addcategoryPost=async(req,res)=>{
